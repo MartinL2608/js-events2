@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmoteka</title>
+    <link rel="stylesheet" href="dist/output.css">
+    <script src="js/main.js" defer></script>
+</head>
+<body class="bg-slate-100 text-slate-800 ">
+
+    <main class="mx-auto max-w-2xl space-y-6 p-4">
+
+        <h1 class="text-3xl font-bold">
+            Filmoteka
+        </h1>
+
+        <div id="hint" class="flex items-center gap-3 rounded bg-amber-100 p-3 text-sm">
+            <p class="flex-1">Savjet: tipka Esc u polju za pretragu briše upisani pojam</p>
+            <button id="hint-close" type="button" class="rounded px-2 py-1 hover:bg-amber-200"></button>
+        </div>
+        <p id="counter" class="text-sm text-slate-600"></p>
+
+        <ul id="list" class="space-y-2">
+
+        </ul>
+        <p id="empty" hidden class="text-slate-500">Nema filmova koji odgovaraju odabiru</p>
+    </main>
+    
+</body>
+</html>
