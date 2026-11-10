@@ -32,10 +32,10 @@ function createItem(film) {
     toggle.textContent = film.watched ? "Vrati" : "Pregledano";
 
     const remove = document.createElement("button");
-    toggle.type = "button";
-    toggle.dataset.action = "delete";
-    toggle.className = "rounded bg-red-100 px-2 py-1 text-sm hover:bg-red-200";
-    toggle.textContent = "Obriši";
+    remove.type = "button";
+    remove.dataset.action = "delete";
+    remove.className = "rounded bg-red-100 px-2 py-1 text-sm hover:bg-red-200";
+    remove.textContent = "Obriši";
 
     li.append(text, toggle, remove);
     return li;
@@ -64,5 +64,43 @@ else if (button.dataset.action === "delete") {
 
 render();
 });
+
+document.querySelector("#hint-close").addEventListener("click", () => {
+    document.querySelector("#hint").remove();
+}, {once : true});
+
+//dodavanje novog elementa
+const form = document.querySelector("#add-form");
+const titleInput = form.elements.title; // document.querySelector("#title");
+const message = document.querySelector("#message");
+
+function errorMessage(field) {
+    const v = field.validity;
+    if (v.valueMissing) return "Ovo polje je obavezno!";
+    if (v.tooshort) return `Minimalna duljina je ${field.minLength} znakova!`;
+    if (v.badInput) return "Neispravan unos!";
+    if (v.rangeUnderflow) return `Minimalna vrijednost je ${field.min}!`;
+    if (v.rangeOverflow) return `Maksimalna vrijednost je ${field.max}!`;
+    return "";
+};
+
+form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData);
+
+    if (data.title.trim() ==="") return; //jednostavna validacija
+    films.push({id: crypto.randomUUID(),
+        title: data.title,
+        genre: data.genre,
+        minutes: Number(data.minutes),
+        watched: form.elements.watched.checked
+    });
+    render();
+    message.textContent = `Film ${data.title} je dodan!`;
+    form.reset();
+    titleInput.focus();
+});
+
 
 render();
