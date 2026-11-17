@@ -22,17 +22,19 @@
             <button id="hint-close" type="button" class="rounded px-2 py-1 hover:bg-amber-200">Zatvori</button>
         </div>
 
-        <form id="add-form" class="space-y-3 rounded bg-white p-4 shadow">
+        <form id="add-form" class="space-y-3 rounded bg-white p-4 shadow" novalidate>
             <h2 class="text-lg font-semibold">Dodaj film</h2>
             <div class="flex gap-2">
                 <label for="title" class="block text-sm font-medium">Naziv</label>
-                <input id="title" name="title" type="text" class="w-full rounded border-slate-300 px-2 py1">
+                <input id="title" name="title" type="text" class="w-full rounded border-slate-300 px-2 py1"
+                required minlength="2" aria-describedby="title-error">
                 <p id="title-error" class="text-sm text-red-700"></p>
             </div>
             <div class="flex gap-2">
                 <div class="flex-1">
                     <label for="year" class="block text-sm font-medium">Žanr</label>
-                    <select id="genre" name="genre" class="w-full rounded border-slate-300 px-2 py1">
+                    <select id="genre" name="genre" class="w-full rounded border-slate-300 px-2 py1"
+                        required aria-describedby="genre-error">
                         <option value="">Odaberi žanr</option>
                         <option value="akcija">Animirani</option>
                         <option value="komedija">Komedija</option>
@@ -43,7 +45,7 @@
                 </div>
                 <div class="flex-1">
                     <label for="minutes" class="block text-sm font-medium">Trajanje (min)</label>
-                    <input id="minutes" name="minutes" type="number" class="w-full rounded border-slate-300 px-2 py1">
+                    <input id="minutes" name="minutes" type="number" class="w-full rounded border-slate-300 px-2 py1" required min="1" max="300" step="1" aria-describedby="minutes-error">
                     <p id="minutes-error" class="text-sm text-red-700"></p>
                 </div>
             </div>

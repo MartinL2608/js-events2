@@ -79,17 +79,48 @@ function errorMessage(field) {
     if (v.valueMissing) return "Ovo polje je obavezno!";
     if (v.tooshort) return `Minimalna duljina je ${field.minLength} znakova!`;
     if (v.badInput) return "Neispravan unos!";
-    if (v.rangeUnderflow) return `Minimalna vrijednost je ${field.min}!`;
-    if (v.rangeOverflow) return `Maksimalna vrijednost je ${field.max}!`;
+    if (v.rangeUnderflow) return `Minimalna vrijednost je ${field.min} min`;
+    if (v.rangeOverflow) return `Maksimalna vrijednost je ${field.max} min`;
+    if (v.stepMismatch) return `Upiši cijeli broj minuta`;
+    if (v.customError) return field.validationMessage; //iz vlastite validacijske funkcije
     return "";
 };
 
+function checkField(field) {
+    const text = errorMessage(field); // text sadrži vrijednost ako polje nije u redu
+    document.querySelector(`#${field.id}-error`).textContent = text;
+    field.setAttribute("aria-invalid", text !== "");
+    return text === ""; //true ako je polje u redu, false ako nije
+}
+//custom validacijska funkcija
+function checkUniqueTitle(field) {
+    const title = titleInput.value.trim().toLowerCase(); //naslov upisan u kučicu
+    const exists = films.some((film) => film.title.toLowerCase() === title); // postoji li kakav takav naslov u listi filmova
+    titleInput.setCustomValidity(exists ? "Film s tim naslovom već postoji!" : ""); 
+
+}
+
+let submitAttempted = false;
+
 form.addEventListener("submit", (event) => {
     event.preventDefault();
+
+    submitAttempted = true;
+    titleInput.value = titleInput.value.trim(); //uklanjanje praznih znakova s početka i kraja
+    checkUniqueTitle();
+    const fields = [...form.elements].filter((el) => el.willValidate && el.required); //provjera svih polja, vraća prvo polje koje nije u redu
+    const result = fields.map(checkField);
+    const firstInvalid = fields[result.indexOf(false)];
+    if (firstInvalid) {
+        firstInvalid.focus();
+        return;
+    }
+
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
 
-    if (data.title.trim() ==="") return; //jednostavna validacija
+     //if (data.title.trim() ==="") return; //jednostavna validacija
+
     films.push({id: crypto.randomUUID(),
         title: data.title,
         genre: data.genre,
@@ -99,8 +130,14 @@ form.addEventListener("submit", (event) => {
     render();
     message.textContent = `Film ${data.title} je dodan!`;
     form.reset();
+    submitAttempted = false;
     titleInput.focus();
 });
 
+form.addEventListener("input", (event) => {
+  
+    if (event.target === titleInput) checkUniqueTitle();
+    if (submitAttempted && event.target.required) checkField(event.target);
+})
 
 render();
