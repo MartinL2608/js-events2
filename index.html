@@ -39,7 +39,8 @@
                         <option value="akcija">Animirani</option>
                         <option value="komedija">Komedija</option>
                         <option value="drama">Drama</option>
-                        <option value="horor">Dokumentarni</option>
+                        <option value="horor">Horor</option>
+                        <option value="dokumentarni">Dokumentarni</option>
                     </select>
                     <p id="genre-error" class="text-sm text-red-700"></p>
                 </div>
@@ -57,6 +58,19 @@
         </form>
         <p id="message" aria-live="polite"class="text-sm text-green-700"></p>
 
+        <div class="flex flex-wrap gap-3">
+            
+            <input id="search" type="search" placeholder="Pretraži po nazivu" aria-label="Pretraga" 
+            class="flex-1 rounded border border-slate-300 px-2 py1">
+
+            <select name="genre-filter" aria-label="Žanr" class="flex-1 rounded border border-slate-300 px-2 py1">
+                <option value="all">Svi žanrovi</option>
+            </select>
+            <select id="sort" aria-label="Sortiranje" class="flex-1 rounded border border-slate-300 px-2 py1">
+                <option value="title">Naziv</option>
+                <option value="minutes-asc">Trajanje (najkraći)</option>
+                <option value="minutes-desc">Trajanje (najduži)</option>
+        </div>
 
         <p id="counter" class="text-sm text-slate-600"></p>
 
